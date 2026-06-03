@@ -1,0 +1,52 @@
+<div class="p-4">
+    <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
+        <table class="w-full text-sm text-left rtl:text-right text-body">
+            <thead class="bg-neutral-secondary-soft border-b border-default">
+                <tr>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Documento
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Nombre
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Telefono
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (cliente of clienteList(); track cliente.id) {
+                <tr (click)="seleccionarCliente(cliente)"
+                    class="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-b border-default">
+                    <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
+                        {{ cliente.documento }}
+                    </th>
+
+                    <td class="px-6 py-4">
+                        <a href="#" class="font-medium hover:underline">{{ cliente.nombre_1 }} {{
+                            cliente.nombre_2 }} {{ cliente.apellido_1 }} {{ cliente.apellido_2 }}</a>
+                    </td>
+                    <td class="px-6 py-4">
+                        +{{ cliente.prefijo }} {{ cliente.telefono }}
+                    </td>
+                    <td class="px-6 py-4">
+
+                        <form class="max-w-sm mx-auto">
+                            <select id="options"
+                                class="block w-full px-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body">
+
+                                <option selected>Opciones</option>
+                                <option value="">Editar</option>
+                                <option value="">Ver</option>
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

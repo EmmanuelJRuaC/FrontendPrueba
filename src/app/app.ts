@@ -1,12 +1,31 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { initFlowbite } from 'flowbite';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterLinkWithHref,
+  RouterOutlet,
+} from '@angular/router';
+import { Userprofile } from './components/userprofile/userprofile';
+import { Options } from './components/options/options';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterLink, RouterLinkWithHref, RouterOutlet, Userprofile, Options],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('jewelryreceipts');
+  routerURL = inject(Router);
+
+  constructor(public router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        setTimeout(() => {
+          initFlowbite();
+        });
+      }
+    });
+  }
 }

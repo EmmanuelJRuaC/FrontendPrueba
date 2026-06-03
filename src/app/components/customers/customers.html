@@ -1,0 +1,459 @@
+<div class="h-full p-4">
+    Clientes
+    <button data-modal-target="crud-modal-cliente" data-modal-toggle="crud-modal-cliente" type="button" (click)="limpiarFormulario()"
+        class="w-full inline-flex items-center text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-full text-sm px-4 py-2.5 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-user-plus-icon lucide-user-plus">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <line x1="19" x2="19" y1="8" y2="14" />
+            <line x1="22" x2="16" y1="11" y2="11" />
+        </svg>
+        Crear nuevo cliente
+    </button>
+
+    <div class="p-4">
+        <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
+            <table class="w-full text-sm text-left rtl:text-right text-body">
+                <thead class="bg-neutral-secondary-soft border-b border-default">
+                    <tr>
+                        <th scope="col" class="px-6 py-2 font-medium">
+                            Nombre
+                        </th>
+                        <th scope="col" class="px-6 py-2 font-medium">
+                            Tipo Documento
+                        </th>
+                        <th scope="col" class="px-6 py-2 font-medium">
+                            Documento
+                        </th>
+                        <th scope="col" class="px-6 py-2 font-medium">
+                            Telefono
+                        </th>
+                        <th scope="col" class="px-6 py-2 font-medium">
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (cliente of clienteList(); track cliente.id) {
+                    <tr class="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-b border-default">
+                        <td class="px-6">
+                            <a href="#" class="font-medium hover:underline">
+                                {{ cliente.nombre_1 }} {{ cliente.nombre_2 }} {{ cliente.apellido_1 }} {{
+                                cliente.apellido_2 }}
+                            </a>
+                        </td>
+                        <th scope="row" class="px-6 font-medium text-heading whitespace-nowrap">
+                            {{ cliente.tipo_documento }}
+                        </th>
+                        <th scope="row" class="px-6 font-medium text-heading whitespace-nowrap">
+                            {{ cliente.documento }}
+                        </th>
+                        <td class="px-6">
+                            +{{ cliente.prefijo }} {{ cliente.telefono }}
+                        </td>
+                        <td class="px-6">
+
+                            <div class="flex items-center gap-2">
+
+                                <!-- BOTON EDITAR -->
+                                <button (click)="datosCliente(cliente)" type="button"
+                                    data-modal-target="modal-editar-cliente" data-modal-toggle="modal-editar-cliente"
+                                    class="w-10 h-10 rounded-xl hover:bg-slate-100 flex items-center justify-center transition">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+
+                                        <path
+                                            d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+
+                                        <path d="m15 5 4 4" />
+                                    </svg>
+                                </button>
+
+                                <!-- VER -->
+                                <button type="button"
+                                    class="w-10 h-10 rounded-xl hover:bg-slate-100 flex items-center justify-center transition">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path
+                                            d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </button>
+
+                                <!-- ELIMINAR -->
+                                <button type="button" (click)="cliente.id && eliminarCliente(cliente.id)"
+                                    class="w-10 h-10 rounded-xl hover:bg-slate-100 flex items-center justify-center transition">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M10 11v6" />
+                                        <path d="M14 11v6" />
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                                        <path d="M3 6h18" />
+                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- MODAL CREAR CLIENTE -->
+<div id="crud-modal-cliente" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-neutral-primary-soft border border-default rounded-base shadow-sm p-4 md:p-6">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between border-b border-default pb-4 md:pb-5">
+                <h3 class="text-lg font-medium text-heading">
+                    Crear nuevo cliente
+                </h3>
+                <button type="button"
+                    class="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
+                    data-modal-hide="crud-modal-cliente">
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18 17.94 6M18 18 6.06 6" />
+                    </svg>
+                    <span class="sr-only">Cerrar</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <form #clienteForm="ngForm" (ngSubmit)="crearNuevoCliente(editCLienteForm)">
+                <div class="grid gap-4 grid-cols-2 py-4 md:py-6">
+                    <div class="col-span-2 flex flex-col sm:flex-row gap-4">
+                        <!-- DOCUMENTO -->
+                        <div class="relative sm:w-48 w-full">
+                            <label for="floating_outlined-td"
+                                class="absolute left-3 -top-2 z-10 px-1 text-xs font-semibold rounded-sm transition-all duration-200"
+                                [class.text-fg-danger-strong]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.bg-danger-soft]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.text-body]="!(tipoDocumento.invalid && tipoDocumento.touched)"
+                                [class.bg-neutral-primary-soft]="!(tipoDocumento.invalid && tipoDocumento.touched)">
+                                Tipo Documento*
+                            </label>
+
+                            <select [(ngModel)]="cliente.tipo_documento" #tipoDocumento="ngModel"
+                                id="floating_outlined-td" name="tipo_documento" required
+                                class="block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs"
+                                [class.bg-danger-soft]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.border-danger-strong]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.text-fg-danger-strong]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.focus:ring-danger]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.focus:border-danger]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.bg-neutral-secondary-medium]="!(tipoDocumento.invalid && tipoDocumento.touched)"
+                                [class.border-default-medium]="!(tipoDocumento.invalid && tipoDocumento.touched)"
+                                [class.text-heading]="!(tipoDocumento.invalid && tipoDocumento.touched)"
+                                [class.focus:ring-brand]="!(tipoDocumento.invalid && tipoDocumento.touched)"
+                                [class.focus:border-brand]="!(tipoDocumento.invalid && tipoDocumento.touched)">
+                                <option value="" selected disabled>Selecciona</option>
+                                <option value="CC">Cédula de ciudadanía</option>
+                                <option value="CE">Cédula de extranjería</option>
+                                <option value="PA">Pasaporte</option>
+                                <option value="NIT">NIT</option>
+                            </select>
+
+                            @if (tipoDocumento.invalid && tipoDocumento.touched) {
+                            <p class="mt-2 text-sm text-fg-danger-strong">
+                                Selecciona un tipo de documento
+                            </p>
+                            }
+                        </div>
+
+                        <div class="relative flex-1 w-full">
+                            <input [(ngModel)]="cliente.documento" #documento="ngModel" id="floating_outlined-tdn"
+                                type="text" inputmode="numeric" pattern="[0-9]*" (input)="soloNumeros($event)"
+                                name="documento" placeholder=" " required
+                                class="peer block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs" />
+                            <label for="floating_outlined-tdn"
+                                class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-fg-brand start-1"
+                                [class.bg-danger-soft]="documento.invalid && documento.touched"
+                                [class.border-danger]="documento.invalid && documento.touched"
+                                [class.bg-neutral-secondary-medium]="!(documento.invalid && documento.touched)"
+                                [class.border-default-medium]="!(documento.invalid && documento.touched)">
+                                N° Documento*
+                            </label>
+                        </div>
+                    </div>
+                    <!-- NOMBRE COMPLETO -->
+                    <div class="relative col-span-2">
+                        <input [(ngModel)]="cliente.nombre_1" id="floating_outlined-pn" type="text" name="nombre_1"
+                            placeholder=" "
+                            class="peer block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs placeholder:text-body"
+                            required />
+                        <label for="floating_outlined-pn"
+                            class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-fg-brand start-1">
+                            Primer Nombre*
+                        </label>
+                    </div>
+                    <div class="relative col-span-2">
+                        <input [(ngModel)]="cliente.nombre_2" id="floating_outlined-sn" type="text" name="nombre_2"
+                            placeholder=" "
+                            class="peer block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs placeholder:text-body" />
+                        <label for="floating_outlined-sn"
+                            class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-fg-brand start-1">
+                            Segundo Nombre*
+                        </label>
+                    </div>
+                    <div class="relative col-span-2">
+                        <input [(ngModel)]="cliente.apellido_1" id="floating_outlined-pa" type="text"
+                            name="apellido_1" placeholder=" "
+                            class="peer block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs placeholder:text-body"
+                            required />
+                        <label for="floating_outlined-pa"
+                            class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-fg-brand start-1">
+                            Primer Apellido*
+                        </label>
+                    </div>
+                    <div class="relative col-span-2">
+                        <input [(ngModel)]="cliente.apellido_2" id="floating_outlined-sa" type="text"
+                            name="apellido_2" placeholder=" "
+                            class="peer block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs placeholder:text-body" />
+                        <label for="floating_outlined-sa"
+                            class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-fg-brand start-1">
+                            Segundo Apellido*
+                        </label>
+                    </div>
+                    <div class="col-span-2 flex flex-col sm:flex-row gap-4">
+                        <!-- TELEFONO -->
+                        <div class="relative sm:w-48 w-full">
+                            <label for="floating_outlined-p"
+                                class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 start-1">
+                                Prefijo*
+                            </label>
+
+                            <select [(ngModel)]="cliente.prefijo" id="floating_outlined-p" name="prefijo"
+                                class="block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs">
+                                <option value="" disabled selected>Selecciona</option>
+                                <option value="1">+1 (EE. UU., Canadá)</option>
+                                <option value="34">+34 (España)</option>
+                                <option value="44">+44 (Reino Unido)</option>
+                                <option value="49">+49 (Alemania)</option>
+                                <option value="52">+52 (México)</option>
+                                <option value="54">+54 (Argentina)</option>
+                                <option value="55">+55 (Brasil)</option>
+                                <option value="57">+57 (Colombia)</option>
+                                <option value="58">+58 (Venezuela)</option>
+                                <option value="81">+81 (Japón)</option>
+                                <option value="86">+86 (China)</option>
+                            </select>
+                        </div>
+
+                        <div class="relative flex-1 w-full">
+                            <input [(ngModel)]="cliente.telefono" id="floating_outlined-t" type="text" name="telfono"
+                                inputmode="numeric" pattern="[0-9]*" (input)="soloNumeros($event)" placeholder=" "
+                                class="peer block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs"
+                                required />
+                            <label for="floating_outlined-t"
+                                class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-fg-brand start-1">
+                                N° Telefono*
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4 border-t border-default pt-4 md:pt-6">
+                    <button type="submit"
+                        class="inline-flex items-center  text-white bg-brand hover:bg-brand-strong box-border border border-transparent focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        Agregar nuevo cliente
+                    </button>
+                    <button data-modal-hide="crud-modal-cliente" type="button"
+                        class="text-danger bg-neutral-primary border border-danger hover:bg-danger hover:text-white focus:ring-4 focus:ring-neutral-tertiary font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDITAR CLIENTE -->
+<div id="modal-editar-cliente" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-neutral-primary-soft border border-default rounded-base shadow-sm p-4 md:p-6">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between border-b border-default pb-4 md:pb-5">
+                <h3 class="text-lg font-medium text-heading">
+                    Crear nuevo cliente
+                </h3>
+                <button type="button"
+                    class="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
+                    data-modal-hide="modal-editar-cliente">
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18 17.94 6M18 18 6.06 6" />
+                    </svg>
+                    <span class="sr-only">Cerrar</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <form #editCLienteForm="ngForm" (ngSubmit)="editarCliente()">
+                <div class="grid gap-4 grid-cols-2 py-4 md:py-6">
+                    <div class="col-span-2 flex flex-col sm:flex-row gap-4">
+                        <!-- DOCUMENTO -->
+                        <div class="relative sm:w-48 w-full">
+                            <label for="floating_outlined-td"
+                                class="absolute left-3 -top-2 z-10 px-1 text-xs font-semibold rounded-sm transition-all duration-200"
+                                [class.text-fg-danger-strong]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.bg-danger-soft]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.text-body]="!(tipoDocumento.invalid && tipoDocumento.touched)"
+                                [class.bg-neutral-primary-soft]="!(tipoDocumento.invalid && tipoDocumento.touched)">
+                                Tipo Documento*
+                            </label>
+
+                            <select [(ngModel)]="cliente.tipo_documento" #tipoDocumento="ngModel"
+                                id="floating_outlined-td" name="tipo_documento" required
+                                class="block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs"
+                                [class.bg-danger-soft]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.border-danger-strong]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.text-fg-danger-strong]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.focus:ring-danger]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.focus:border-danger]="tipoDocumento.invalid && tipoDocumento.touched"
+                                [class.bg-neutral-secondary-medium]="!(tipoDocumento.invalid && tipoDocumento.touched)"
+                                [class.border-default-medium]="!(tipoDocumento.invalid && tipoDocumento.touched)"
+                                [class.text-heading]="!(tipoDocumento.invalid && tipoDocumento.touched)"
+                                [class.focus:ring-brand]="!(tipoDocumento.invalid && tipoDocumento.touched)"
+                                [class.focus:border-brand]="!(tipoDocumento.invalid && tipoDocumento.touched)">
+                                <option value="" selected disabled>Selecciona</option>
+                                <option value="CC">Cédula de ciudadanía</option>
+                                <option value="CE">Cédula de extranjería</option>
+                                <option value="PA">Pasaporte</option>
+                                <option value="NIT">NIT</option>
+                            </select>
+
+                            @if (tipoDocumento.invalid && tipoDocumento.touched) {
+                            <p class="mt-2 text-sm text-fg-danger-strong">
+                                Selecciona un tipo de documento
+                            </p>
+                            }
+                        </div>
+
+                        <div class="relative flex-1 w-full">
+                            <input [(ngModel)]="cliente.documento" #documento="ngModel" id="floating_outlined-tdn"
+                                type="text" inputmode="numeric" pattern="[0-9]*" (input)="soloNumeros($event)"
+                                name="documento" placeholder=" " required
+                                class="peer block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs" />
+                            <label for="floating_outlined-tdn"
+                                class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-fg-brand start-1"
+                                [class.bg-danger-soft]="documento.invalid && documento.touched"
+                                [class.border-danger]="documento.invalid && documento.touched"
+                                [class.bg-neutral-secondary-medium]="!(documento.invalid && documento.touched)"
+                                [class.border-default-medium]="!(documento.invalid && documento.touched)">
+                                N° Documento*
+                            </label>
+                        </div>
+                    </div>
+                    <!-- NOMBRE COMPLETO -->
+                    <div class="relative col-span-2">
+                        <input [(ngModel)]="cliente.nombre_1" id="floating_outlined-pn" type="text" name="nombre_1"
+                            placeholder=" "
+                            class="peer block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs placeholder:text-body"
+                            required />
+                        <label for="floating_outlined-pn"
+                            class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-fg-brand start-1">
+                            Primer Nombre*
+                        </label>
+                    </div>
+                    <div class="relative col-span-2">
+                        <input [(ngModel)]="cliente.nombre_2" id="floating_outlined-sn" type="text" name="nombre_2"
+                            placeholder=" "
+                            class="peer block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs placeholder:text-body" />
+                        <label for="floating_outlined-sn"
+                            class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-fg-brand start-1">
+                            Segundo Nombre*
+                        </label>
+                    </div>
+                    <div class="relative col-span-2">
+                        <input [(ngModel)]="cliente.apellido_1" id="floating_outlined-pa" type="text"
+                            name="apellido_1" placeholder=" "
+                            class="peer block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs placeholder:text-body"
+                            required />
+                        <label for="floating_outlined-pa"
+                            class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-fg-brand start-1">
+                            Primer Apellido*
+                        </label>
+                    </div>
+                    <div class="relative col-span-2">
+                        <input [(ngModel)]="cliente.apellido_2" id="floating_outlined-sa" type="text"
+                            name="apellido_2" placeholder=" "
+                            class="peer block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs placeholder:text-body" />
+                        <label for="floating_outlined-sa"
+                            class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-fg-brand start-1">
+                            Segundo Apellido*
+                        </label>
+                    </div>
+                    <div class="col-span-2 flex flex-col sm:flex-row gap-4">
+                        <!-- TELEFONO -->
+                        <div class="relative sm:w-48 w-full">
+                            <label for="floating_outlined-p"
+                                class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 start-1">
+                                Prefijo*
+                            </label>
+
+                            <select [(ngModel)]="cliente.prefijo" id="floating_outlined-p" name="prefijo"
+                                class="block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs">
+                                <option value="" disabled selected>Selecciona</option>
+                                <option value="1">+1 (EE. UU., Canadá)</option>
+                                <option value="34">+34 (España)</option>
+                                <option value="44">+44 (Reino Unido)</option>
+                                <option value="49">+49 (Alemania)</option>
+                                <option value="52">+52 (México)</option>
+                                <option value="54">+54 (Argentina)</option>
+                                <option value="55">+55 (Brasil)</option>
+                                <option value="57">+57 (Colombia)</option>
+                                <option value="58">+58 (Venezuela)</option>
+                                <option value="81">+81 (Japón)</option>
+                                <option value="86">+86 (China)</option>
+                            </select>
+                        </div>
+
+                        <div class="relative flex-1 w-full">
+                            <input [(ngModel)]="cliente.telefono" id="floating_outlined-t" type="text" name="telfono"
+                                inputmode="numeric" pattern="[0-9]*" (input)="soloNumeros($event)" placeholder=" "
+                                class="peer block w-full bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs"
+                                required />
+                            <label for="floating_outlined-t"
+                                class="absolute text-sm text-body font-bold duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-fg-brand start-1">
+                                N° Telefono*
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4 border-t border-default pt-4 md:pt-6">
+                    <button type="submit"
+                        class="inline-flex items-center  text-white bg-brand hover:bg-brand-strong box-border border border-transparent focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        Agregar nuevo cliente
+                    </button>
+                    <button data-modal-hide="modal-editar-cliente" type="button"
+                        class="text-danger bg-neutral-primary border border-danger hover:bg-danger hover:text-white focus:ring-4 focus:ring-neutral-tertiary font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "jewelryreceipts": {
+    "frontend": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -26,6 +26,9 @@
             ],
             "styles": [
               "src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/flowbite/dist/flowbite.min.js"
             ]
           },
           "configurations": {
@@ -56,10 +59,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "jewelryreceipts:build:production"
+              "buildTarget": "frontend:build:production"
             },
             "development": {
-              "buildTarget": "jewelryreceipts:build:development"
+              "buildTarget": "frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
